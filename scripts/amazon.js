@@ -65,12 +65,11 @@ document.querySelectorAll(".js-add-to-cart").forEach((btn) => {
 
 function addToCart(productId) {
   const product = cart.find((x) => x.productId === productId);
-  const addedQuantity = Number(
+  const quantity = Number(
     document.querySelector(`.js-product-quantity-${productId}`).value
   );
 
-  (product ?? cart.push({ productId, quantity: addedQuantity })).quantity +=
-    addedQuantity;
+  (product ?? cart.push({ productId, quantity })).quantity += quantity;
 
   /*
   if(product){
