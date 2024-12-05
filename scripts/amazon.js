@@ -75,5 +75,14 @@ function addToCart(productId) {
   else
     cart.push({ productName, quantity: 1 }); */
 
-  console.log(cart);
+  updateCartQuantity();
+}
+
+function updateCartQuantity() {
+  const cartQuantity = cart.reduce(
+    (total, item) => (total += item.quantity),
+    0
+  );
+
+  document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
 }
