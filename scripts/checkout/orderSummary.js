@@ -107,8 +107,8 @@ function addDeleteEventListener() {
     element.addEventListener("click", () => {
       const productId = element.dataset.productId;
       deleteCartItem(productId);
-      document.querySelector(`.js-cart-item-container-${productId}`).remove();
       updateCheckoutHeader();
+      renderCartItems();
       renderOrderSummary();
     });
   });
