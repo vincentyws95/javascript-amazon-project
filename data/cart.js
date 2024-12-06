@@ -32,3 +32,15 @@ export function deleteCartItem(productId) {
   cart = cart.filter((x) => x.productId !== productId);
   saveCartToStorage();
 }
+
+export function getCartQuantity() {
+  return cart.reduce((total, item) => (total += item.quantity), 0);
+}
+
+export function updateCartItemQuantity(productId, newQuantity) {
+  cart.forEach((x) => {
+    if (x.productId === productId) x.quantity = Number(newQuantity);
+  });
+
+  saveCartToStorage();
+}

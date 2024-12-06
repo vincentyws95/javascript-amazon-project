@@ -1,4 +1,4 @@
-import { cart, addToCart } from "../data/cart.js";
+import { cart, addToCart, getCartQuantity } from "../data/cart.js";
 import { products } from "../data/products.js";
 
 let productsHTML = "";
@@ -74,12 +74,7 @@ function renderProductsHTML() {
 }
 
 function updateCartQuantity() {
-  const cartQuantity = cart.reduce(
-    (total, item) => (total += item.quantity),
-    0
-  );
-
-  document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
+  document.querySelector(".js-cart-quantity").innerHTML = getCartQuantity();
 }
 
 let timeoutId;
