@@ -1,4 +1,4 @@
-import { getCartFromStorage } from "../data/cart.js";
+import { deleteCartItem, getCartFromStorage } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { formatCurrency } from "../utils/money.js";
 
@@ -7,14 +7,15 @@ renderCartItems(cart, products);
 console.log(cart, products);
 
 function renderCartItems(cart, products) {
-  console.log(cart, products);
   let cartItemHTML = "";
 
   cart.forEach((cartItem, index) => {
     const product = products.find((y) => y.id === cartItem.productId);
 
     cartItemHTML += `
-        <div class="cart-item-container">
+        <div class="cart-item-container js-cart-item-container-${
+          cartItem.productId
+        }">
             <div class="delivery-date">Delivery date: Tuesday, June 21</div>
         <div class="cart-item-details-grid">
               <img
@@ -34,7 +35,9 @@ function renderCartItems(cart, products) {
           <span class="update-quantity-link link-primary">
             Update
           </span>
-          <span class="delete-quantity-link link-primary">
+          <span class="delete-quantity-link link-primary js-delete-cartItem" data-product-id="${
+            cartItem.productId
+          }">
             Delete
           </span>
         </div>
@@ -83,10 +86,21 @@ function renderCartItems(cart, products) {
         `;
   });
 
-  console.log(cartItemHTML);
-
   document.querySelector(".order-summary").innerHTML = cartItemHTML;
+
+  addDeleteEventListener();
 }
+
+function addDeleteEventListener() {
+  document.querySelectorAll(".js-delete-cartItem").forEach((element) => {
+    element.addEventListener("click", () => {
+      const productId = element.dataset.productId;
+      deleteCartItem(productId);
+      document.querySelector(`.js-cart-item-container-${productId}`).remove();
+    });
+  });
+}
+function removeElement() {}
 
 function renderOrderSummary() {
   let html = `

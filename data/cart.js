@@ -1,4 +1,4 @@
-export const cart = [];
+export let cart = getCartFromStorage();
 
 export function addToCart(productId) {
   const addedQuantity = Number(
@@ -11,6 +11,7 @@ export function addToCart(productId) {
 
   product.quantity += addedQuantity;
 
+  saveCartToStorage();
   /*
     if(product){
       product.quantity++
@@ -25,4 +26,9 @@ export function saveCartToStorage() {
 
 export function getCartFromStorage() {
   return JSON.parse(localStorage.getItem("cart")) || [];
+}
+
+export function deleteCartItem(productId) {
+  cart = cart.filter((x) => x.productId !== productId);
+  saveCartToStorage();
 }
