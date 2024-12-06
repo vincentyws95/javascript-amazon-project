@@ -6,6 +6,7 @@ import {
   updateDeliveryOption,
 } from "../../data/cart.js";
 import deliveryOptions from "../../data/deliveryOptions.js";
+import { renderOrderSummary } from "../checkout/paymentSummary.js";
 import { products } from "../../data/products.js";
 import { formatCurrency } from "../utils/money.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
@@ -43,7 +44,7 @@ export function renderCartItems() {
             ${product.name}
           </div>
           <div class="product-price">$${formatCurrency(
-            product.priceCents
+            product.priceCents * cartItem.quantity
           )}</div>
           <div class="product-quantity">
             <span> Quantity: <span class="quantity-label js-quantity-label-${
@@ -77,9 +78,7 @@ export function renderCartItems() {
             ${renderDeliveryOptions(cartItem)}
           </div>
           </div>
-          </div>
         </div>
-      </div>
           `;
   });
 
@@ -110,6 +109,7 @@ function addDeleteEventListener() {
       deleteCartItem(productId);
       document.querySelector(`.js-cart-item-container-${productId}`).remove();
       updateCheckoutHeader();
+      renderOrderSummary();
     });
   });
 }
@@ -144,6 +144,10 @@ function attachSaveEventListener() {
       document
         .querySelector(`.js-cart-item-container-${productId}`)
         .classList.remove("is-editing-quantity");
+
+      //re-render the view
+      renderCartItems();
+      renderOrderSummary();
     });
   });
 }
@@ -187,6 +191,7 @@ function attachDeliveryOptionListener() {
       const { productId, deliveryOptionId } = el.dataset;
       updateDeliveryOption(productId, deliveryOptionId);
       renderCartItems();
+      renderOrderSummary();
     });
   });
 }

@@ -37,6 +37,15 @@ export function getCartQuantity() {
   return cart.reduce((total, item) => (total += item.quantity), 0);
 }
 
+export function getCartTotalPrice() {
+  return (
+    cart.reduce(
+      (total, item) => (total += item.quantity * item.priceCents),
+      0
+    ) / 100
+  );
+}
+
 export function updateCartItemQuantity(productId, newQuantity) {
   cart.forEach((x) => {
     if (x.productId === productId) x.quantity = Number(newQuantity);
