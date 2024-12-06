@@ -7,7 +7,7 @@ export function addToCart(productId) {
 
   const product =
     cart.find((x) => x.productId === productId) ||
-    cart[cart.push({ productId, quantity: 0 }) - 1];
+    cart[cart.push({ productId, quantity: 0, deliveryOptionId: "1" }) - 1];
 
   product.quantity += addedQuantity;
 
@@ -40,6 +40,14 @@ export function getCartQuantity() {
 export function updateCartItemQuantity(productId, newQuantity) {
   cart.forEach((x) => {
     if (x.productId === productId) x.quantity = Number(newQuantity);
+  });
+
+  saveCartToStorage();
+}
+
+export function updateDeliveryOption(productId, deliveryOptionId) {
+  cart.forEach((x) => {
+    if (x.productId === productId) x.deliveryOptionId = deliveryOptionId;
   });
 
   saveCartToStorage();
