@@ -10,7 +10,7 @@ function renderCartItems(cart, products) {
   console.log(cart, products);
   let cartItemHTML = "";
 
-  cart.forEach((cartItem) => {
+  cart.forEach((cartItem, index) => {
     const product = products.find((y) => y.id === cartItem.productId);
 
     cartItemHTML += `
@@ -48,7 +48,7 @@ function renderCartItems(cart, products) {
               type="radio"
               checked
               class="delivery-option-input"
-              name="delivery-option-1"
+              name="delivery-option-${index}"
             />
             <div>
               <div class="delivery-option-date">Tuesday, June 21</div>
@@ -59,7 +59,7 @@ function renderCartItems(cart, products) {
             <input
               type="radio"
               class="delivery-option-input"
-              name="delivery-option-1"
+              name="delivery-option-${index}"
             />
             <div>
               <div class="delivery-option-date">Wednesday, June 15</div>
@@ -70,7 +70,7 @@ function renderCartItems(cart, products) {
             <input
               type="radio"
               class="delivery-option-input"
-              name="delivery-option-1"
+              name="delivery-option-${index}"
             />
             <div>
               <div class="delivery-option-date">Monday, June 13</div>
