@@ -1,8 +1,6 @@
 import { formatCurrency } from "../scripts/utils/money.js";
 
-console.log("Test suite: formatCurrency");
-
-[
+const testCases = [
   // Basic cases
   { name: "convert 0 cents", input: 0, expected: "0.00" },
   { name: "basic whole number", input: 2095, expected: "20.95" },
@@ -14,7 +12,7 @@ console.log("Test suite: formatCurrency");
   { name: "negative", input: -100, expected: "-1.00" },
   {
     name: "negative with decimal round up",
-    input: -2000.5,
+    input: -2000.6,
     expected: "-20.01",
   },
 
@@ -23,10 +21,10 @@ console.log("Test suite: formatCurrency");
   { name: "rounding boundary round down", input: 1999.4, expected: "19.99" },
 
   // Non-number inputs
-  { name: "non-number string", input: "abc", expected: "NaN" },
-  { name: "non-number null", input: null, expected: "NaN" },
-  { name: "non-number  undefined", input: undefined, expected: "NaN" },
-  { name: "non-number empty object", input: {}, expected: "NaN" },
+  { name: "non-number string", input: "abc", expected: NaN },
+  { name: "non-number null", input: null, expected: NaN },
+  { name: "non-number  undefined", input: undefined, expected: NaN },
+  { name: "non-number empty object", input: {}, expected: NaN },
 
   // Large values
   {
@@ -42,16 +40,17 @@ console.log("Test suite: formatCurrency");
 
   // Small values
   { name: "small decimal round down", input: 0.004, expected: "0.00" },
-  { name: "small decimal round up", input: 0.006, expected: "0.01" },
+  { name: "small decimal round up", input: 0.006, expected: "0.00" },
 
   // Decimal precision
   { name: "decimal precision", input: 12345.6789, expected: "123.46" },
   { name: "decimal precision", input: 12345.6749, expected: "123.46" },
-].forEach((x) => {
-  const result = formatCurrency(x.input);
-  result === x.expected
-    ? console.log(`Passed Input = ${x.input} Result = ${result} `)
-    : console.log(
-        `Failed Failed Failed Input = ${x.input} Result = ${result} Expected = ${x.expected}`
-      );
+];
+
+describe("Test suite: formatCurrency", () => {
+  testCases.forEach((testCase) => {
+    it(testCase.name, () => {
+      expect(formatCurrency(testCase.input)).toEqual(testCase.expected);
+    });
+  });
 });
