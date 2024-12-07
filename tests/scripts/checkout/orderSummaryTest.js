@@ -23,7 +23,6 @@ describe("test suite: renderCartItems", () => {
     });
 
     loadCartFromStorage();
-    console.log(cart);
     document.querySelector(".js-test-container").innerHTML = `
             <div class="order-summary"></div>
             <div class="payment-summary"></div>

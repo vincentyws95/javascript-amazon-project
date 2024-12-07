@@ -3,7 +3,6 @@ export let cart;
 loadCartFromStorage();
 
 export function addToCart(productId) {
-  console.log(productId);
   const addedQuantity = Number(
     document.querySelector(`.js-product-quantity-${productId}`).value
   );

@@ -42,9 +42,9 @@ export function renderCartItems() {
           <div class="product-name">
             ${product.name}
           </div>
-          <div class="product-price">$${formatCurrency(
-            product.priceCents * cartItem.quantity
-          )}</div>
+          <div class="product-price">$${(
+            product.getPrice() * cartItem.quantity
+          ).toFixed(2)}</div>
           <div class="product-quantity">
             <span> Quantity: <span class="quantity-label js-quantity-label-${
               cartItem.productId
