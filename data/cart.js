@@ -1,4 +1,6 @@
-export let cart = getCartFromStorage();
+export let cart;
+
+cart = loadCartFromStorage();
 
 export function addToCart(productId) {
   const addedQuantity = Number(
@@ -24,8 +26,8 @@ export function saveCartToStorage() {
   localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-export function getCartFromStorage() {
-  return JSON.parse(localStorage.getItem("cart")) || [];
+export function loadCartFromStorage() {
+  cart = JSON.parse(localStorage.getItem("cart")) || [];
 }
 
 export function deleteCartItem(productId) {
