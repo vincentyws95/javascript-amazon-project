@@ -1,6 +1,6 @@
 import {
+  cart,
   deleteCartItem,
-  getCartFromStorage,
   getCartQuantity,
   updateCartItemQuantity,
   updateDeliveryOption,
@@ -12,10 +12,9 @@ import { formatCurrency } from "../utils/money.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 
 export function renderCartItems() {
-  const cart = getCartFromStorage();
   let cartItemHTML = "";
 
-  cart.forEach((cartItem, index) => {
+  cart.forEach((cartItem) => {
     const product = products.find((y) => y.id === cartItem.productId);
 
     const deliveryOption = deliveryOptions.find(
@@ -66,9 +65,9 @@ export function renderCartItems() {
             Save
             </span>
   
-            <span class="delete-quantity-link link-primary js-delete-cartItem" data-product-id="${
+            <span class="delete-quantity-link link-primary js-delete-cartItem js-delete-cartItem-${
               cartItem.productId
-            }">
+            }" data-product-id="${cartItem.productId}">
               Delete
             </span>
           </div>
