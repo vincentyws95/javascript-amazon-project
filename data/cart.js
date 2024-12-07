@@ -1,8 +1,9 @@
 export let cart;
 
-cart = loadCartFromStorage();
+loadCartFromStorage();
 
 export function addToCart(productId) {
+  console.log(productId);
   const addedQuantity = Number(
     document.querySelector(`.js-product-quantity-${productId}`).value
   );
@@ -14,12 +15,6 @@ export function addToCart(productId) {
   product.quantity += addedQuantity;
 
   saveCartToStorage();
-  /*
-    if(product){
-      product.quantity++
-    }
-    else
-      cart.push({ productName, quantity: 1 }); */
 }
 
 export function saveCartToStorage() {
