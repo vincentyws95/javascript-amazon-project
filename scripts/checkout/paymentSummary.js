@@ -3,6 +3,7 @@ import { cart, getCartQuantity, getCartTotalPrice } from "../../data/cart.js";
 import { products, getProductById } from "../../data/products.js";
 import { formatCurrency } from "../utils/money.js";
 import { getDeliveryOptionById } from "../../data/deliveryOptions.js";
+import { addOrder } from "../../data/orders.js";
 
 export function renderOrderSummary() {
   const cartTotalCost = cart.reduce(
@@ -60,11 +61,34 @@ export function renderOrderSummary() {
               )}</div>
             </div>
   
-            <button class="place-order-button button-primary">
+            <button class="place-order-button button-primary js-place-order">
               Place your order
             </button>
           </div>
       `;
 
   document.querySelector(".payment-summary").innerHTML = paymentHTML;
+
+  document
+    .querySelector(".js-place-order")
+    .addEventListener("click", async () => {
+      try {
+        const response = await fetch("https://ssupersimplebackend.dev/orders", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            cart: cart,
+          }),
+        });
+
+        const order = await response.json();
+        addOrder(order);
+      } catch (error) {
+        console.log(`Something went wrong when placing order. ${error}`);
+      }
+
+      window.location.href = "orders.html";
+    });
 }
