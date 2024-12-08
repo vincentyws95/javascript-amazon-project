@@ -555,7 +555,6 @@ export function loadProducts(callback) {
 
   console.log("send load request");
   xhr.addEventListener("load", () => {
-    console.log("products loaded");
     products = JSON.parse(xhr.response).map((x) => {
       if (x.type === "clothing") return new Clothing(x);
       else if (x.type === "appliance") return new Appliance(x);
@@ -570,3 +569,26 @@ export function loadProducts(callback) {
   xhr.open("GET", "https://supersimplebackend.dev/products");
   xhr.send();
 }
+
+//fetch returns a promise
+export function loadProductsFetch() {
+  const promise = fetch("https://supersimplebackend.dev/products")
+    .then((response) => response.json())
+    .then((data) => {
+      products = data.map((x) => {
+        if (x.type === "clothing") return new Clothing(x);
+        else if (x.type === "appliance") return new Appliance(x);
+        else {
+          return new Product(x);
+        }
+      });
+
+      console.log("loaded products");
+    });
+
+  return promise;
+}
+
+// loadProductsFetch().then(() => {
+//   console.log("next step");
+// });
