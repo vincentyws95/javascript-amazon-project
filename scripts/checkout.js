@@ -7,8 +7,23 @@ import { loadCart } from "../data/cart.js";
 // import "./exercise/ex-17.js";
 // import "../data/backend-practice.js";
 
+async function loadPage() {
+  await Promise.all([
+    loadProductsFetch(),
+    new Promise((resolve) => {
+      loadCart(resolve);
+    }),
+  ]);
+
+  renderCartItems();
+  renderOrderSummary();
+}
+
+loadPage();
+
 //load promise all at once,
 
+/*
 Promise.all([
   loadProductsFetch(),
   new Promise((resolve) => {
@@ -18,6 +33,7 @@ Promise.all([
   renderCartItems();
   renderOrderSummary();
 });
+*/
 
 //promise chaining 1 by 1
 /*
