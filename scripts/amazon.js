@@ -1,5 +1,5 @@
 import { cart, addToCart, getCartQuantity } from "../data/cart.js";
-import { products } from "../data/products.js";
+import { products, loadProducts } from "../data/products.js";
 
 let productsHTML = "";
 
@@ -93,5 +93,9 @@ function displayAdded(productId) {
   }, 2000);
 }
 
-renderProductsHTML();
-updateCartQuantity();
+new Promise((resolve) => {
+  loadProducts(resolve);
+}).then(() => {
+  renderProductsHTML();
+  updateCartQuantity();
+});
