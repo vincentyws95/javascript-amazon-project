@@ -601,7 +601,6 @@ export async function loadProductsAsync() {
       return new Product(x);
     }
   });
-  console.log("products loaded");
 }
 
 // loadProductsFetch().then(() => {

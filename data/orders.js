@@ -1,4 +1,4 @@
-import { formatToDate } from "../scripts/utils/dateFormatter.js";
+import { formatToMonthDate } from "../scripts/utils/dateFormatter.js";
 import { formatCurrency } from "../scripts/utils/money.js";
 import { addToCart, getCartQuantity } from "../data/cart.js";
 import { loadProductsAsync, getProductById } from "./products.js";
@@ -7,7 +7,7 @@ export const orders = JSON.parse(localStorage.getItem("orders")) || [];
 
 Promise.all([loadProductsAsync()]).then(() => {
   renderOrders();
-  attachEventListener();
+  attachAllEventListner();
   updateCartQuantity();
 });
 
@@ -31,7 +31,7 @@ export function renderOrders() {
             <div class="order-header-left-section">
               <div class="order-date">
                 <div class="order-header-label">Order Placed:</div>
-                <div>${formatToDate(order.orderTime)}</div>
+                <div>${formatToMonthDate(order.orderTime)}</div>
               </div>
               <div class="order-total">
                 <div class="order-header-label">Total:</div>
@@ -45,7 +45,7 @@ export function renderOrders() {
             </div>
           </div>
           <div class="order-details-grid">
-          ${renderOrderProductsHTML(order.products)}
+          ${renderOrderProductsHTML(order)}
           </div>
           
     </div>
@@ -54,10 +54,10 @@ export function renderOrders() {
   });
 }
 
-function renderOrderProductsHTML(orderProducts) {
+function renderOrderProductsHTML(order) {
   let orderProductsHTML = "";
 
-  orderProducts.forEach((orderProduct) => {
+  order.products.forEach((orderProduct) => {
     const product = getProductById(orderProduct.productId);
     orderProductsHTML += `
     <div class="product-image-container">
@@ -68,7 +68,7 @@ function renderOrderProductsHTML(orderProducts) {
               <div class="product-name">
                  ${product.name}
               </div>
-              <div class="product-delivery-date">Arriving on: ${formatToDate(
+              <div class="product-delivery-date">Arriving on: ${formatToMonthDate(
                 orderProduct.estimatedDeliveryTime
               )}</div>
               <div class="product-quantity">Quantity: ${
@@ -83,7 +83,9 @@ function renderOrderProductsHTML(orderProducts) {
             </div>
 
             <div class="product-actions">
-              <a href="tracking.html">
+              <a href="tracking.html?orderId=${order.id}&productId=${
+      orderProduct.productId
+    }">
                 <button class="track-package-button button-secondary">
                   Track package
                 </button>
@@ -95,7 +97,11 @@ function renderOrderProductsHTML(orderProducts) {
   return orderProductsHTML;
 }
 
-function attachEventListener() {
+function attachAllEventListner() {
+  attachBuyAgainClick();
+}
+
+function attachBuyAgainClick() {
   document.querySelectorAll(".js-buy-again").forEach((el) => {
     el.addEventListener("click", () => {
       addToCart(el.dataset.productId);
@@ -106,4 +112,10 @@ function attachEventListener() {
 
 function updateCartQuantity() {
   document.querySelector(".js-cart-quantity").innerHTML = getCartQuantity();
+}
+
+export function getProductByOrderIdProductId(orderId, productId) {
+  return orders
+    .find((x) => x.id === orderId)
+    ?.products.find((x) => x.productId === productId);
 }
