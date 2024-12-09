@@ -6,9 +6,9 @@ Promise.all([loadProductsAsync()]).then(() => {
   updateCartQuantity();
 });
 
-let productsHTML = "";
-
 function renderProductsHTML() {
+  let productsHTML = "";
+  console.log("renderProductsHTML called");
   products.forEach((product) => {
     productsHTML += `
               <div class="product-container">
@@ -77,7 +77,7 @@ function renderProductsHTML() {
   });
 }
 
-function updateCartQuantity() {
+export function updateCartQuantity() {
   document.querySelector(".js-cart-quantity").innerHTML = getCartQuantity();
 }
 

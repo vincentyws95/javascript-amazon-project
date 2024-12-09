@@ -3,9 +3,10 @@ export let cart;
 loadCartFromStorage();
 
 export function addToCart(productId) {
-  const addedQuantity = Number(
-    document.querySelector(`.js-product-quantity-${productId}`).value
-  );
+  const addedQuantity =
+    Number(
+      document.querySelector(`.js-product-quantity-${productId}`)?.value
+    ) || 1;
 
   const product =
     cart.find((x) => x.productId === productId) ||

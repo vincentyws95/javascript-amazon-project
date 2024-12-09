@@ -1,11 +1,14 @@
 import { formatToDate } from "../scripts/utils/dateFormatter.js";
 import { formatCurrency } from "../scripts/utils/money.js";
-import { products, loadProductsAsync, getProductById } from "./products.js";
+import { addToCart, getCartQuantity } from "../data/cart.js";
+import { loadProductsAsync, getProductById } from "./products.js";
 
 export const orders = JSON.parse(localStorage.getItem("orders")) || [];
 
 Promise.all([loadProductsAsync()]).then(() => {
   renderOrders();
+  attachEventListener();
+  updateCartQuantity();
 });
 
 export function addOrder(order) {
@@ -22,7 +25,6 @@ export function renderOrders() {
   let ordersHTML = "";
 
   orders.forEach((order) => {
-    console.log(order);
     ordersHTML += `
     <div class="order-container">
           <div class="order-header">
@@ -57,7 +59,6 @@ function renderOrderProductsHTML(orderProducts) {
 
   orderProducts.forEach((orderProduct) => {
     const product = getProductById(orderProduct.productId);
-    console.log(product);
     orderProductsHTML += `
     <div class="product-image-container">
               <img src="${product.image}" />
@@ -73,7 +74,9 @@ function renderOrderProductsHTML(orderProducts) {
               <div class="product-quantity">Quantity: ${
                 orderProduct.quantity
               }</div>
-              <button class="buy-again-button button-primary">
+              <button class="buy-again-button button-primary js-buy-again" data-product-id="${
+                orderProduct.productId
+              }">
                 <img class="buy-again-icon" src="images/icons/buy-again.png" />
                 <span class="buy-again-message">Buy it again</span>
               </button>
@@ -90,4 +93,17 @@ function renderOrderProductsHTML(orderProducts) {
   });
 
   return orderProductsHTML;
+}
+
+function attachEventListener() {
+  document.querySelectorAll(".js-buy-again").forEach((el) => {
+    el.addEventListener("click", () => {
+      addToCart(el.dataset.productId);
+      updateCartQuantity();
+    });
+  });
+}
+
+function updateCartQuantity() {
+  document.querySelector(".js-cart-quantity").innerHTML = getCartQuantity();
 }
