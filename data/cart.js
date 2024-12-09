@@ -69,3 +69,9 @@ export function loadCart(callback) {
   xhr.open("GET", "https://supersimplebackend.dev/cart");
   xhr.send();
 }
+
+export async function loadCartAsync() {
+  return fetch("https://supersimplebackend.dev/cart").then(() =>
+    console.log("cart loaded")
+  );
+}

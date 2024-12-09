@@ -73,7 +73,7 @@ export function renderOrderSummary() {
     .querySelector(".js-place-order")
     .addEventListener("click", async () => {
       try {
-        const response = await fetch("https://ssupersimplebackend.dev/orders", {
+        const response = await fetch("https://supersimplebackend.dev/orders", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

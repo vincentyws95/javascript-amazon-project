@@ -1,5 +1,10 @@
 import { cart, addToCart, getCartQuantity } from "../data/cart.js";
-import { products, loadProducts } from "../data/products.js";
+import { products, loadProductsAsync } from "../data/products.js";
+
+Promise.all([loadProductsAsync()]).then(() => {
+  renderProductsHTML();
+  updateCartQuantity();
+});
 
 let productsHTML = "";
 
@@ -92,10 +97,3 @@ function displayAdded(productId) {
     isAdding = false;
   }, 2000);
 }
-
-new Promise((resolve) => {
-  loadProducts(resolve);
-}).then(() => {
-  renderProductsHTML();
-  updateCartQuantity();
-});

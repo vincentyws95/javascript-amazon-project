@@ -1,19 +1,14 @@
-import { loadProductsFetch } from "../data/products.js";
+import { loadProductsAsync } from "../data/products.js";
 import { renderCartItems } from "./checkout/orderSummary.js";
 import { renderOrderSummary } from "./checkout/paymentSummary.js";
-import { loadCart } from "../data/cart.js";
+import { loadCartAsync } from "../data/cart.js";
 // import "../data/cart-oop.js";
 // import "../data/cart-class.js";
 // import "./exercise/ex-17.js";
 // import "../data/backend-practice.js";
 
 async function loadPage() {
-  await Promise.all([
-    loadProductsFetch(),
-    new Promise((resolve) => {
-      loadCart(resolve);
-    }),
-  ]);
+  await Promise.all([loadProductsAsync(), loadCartAsync()]);
 
   renderCartItems();
   renderOrderSummary();

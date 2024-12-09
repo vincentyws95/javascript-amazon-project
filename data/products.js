@@ -1,5 +1,7 @@
 import { formatCurrency } from "../scripts/utils/money.js";
 
+export let products = [];
+
 export function getProductById(id) {
   return products.find((x) => x.id === id);
 }
@@ -548,8 +550,7 @@ export class Appliance extends Product {
 //   }
 // });
 
-export let products = [];
-
+/*
 export function loadProducts(callback) {
   const xhr = new XMLHttpRequest();
 
@@ -587,6 +588,20 @@ export function loadProductsFetch() {
     });
 
   return promise;
+}
+  */
+
+export async function loadProductsAsync() {
+  const res = await fetch("https://supersimplebackend.dev/products");
+  const data = await res.json();
+  products = data.map((x) => {
+    if (x.type === "clothing") return new Clothing(x);
+    else if (x.type === "appliance") return new Appliance(x);
+    else {
+      return new Product(x);
+    }
+  });
+  console.log("products loaded");
 }
 
 // loadProductsFetch().then(() => {
